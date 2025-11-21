@@ -1,0 +1,2 @@
+TotalSavings = SUM('Finance'[Savings])
+NetIncome = SUM('Finance'[Income]) - SUM('Finance'[Expenses])

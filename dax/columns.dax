@@ -1,0 +1,1 @@
+IsSurplus = IF([NetIncome] > 0, TRUE(), FALSE())
