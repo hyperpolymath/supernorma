@@ -19,10 +19,14 @@
      (domain . "General"))
 
     (context
-     (last-session . "2025-12-10")
-     (focus-area . "Initial standardization")
+     (last-session . "2025-12-13")
+     (focus-area . "OpenSSF Scorecard compliance")
      (blockers . ())
-     (decisions-pending . ()))
+     (decisions-pending . ())
+     (completed-this-session
+      ((task . "OpenSSF Scorecard workflow fixes")
+       (files . 13)
+       (fixes . ("permissions: read-all" "SHA-pinned actions" "SPDX headers")))))
 
     (implementations
      ((name . "Initial setup")
