@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
 
@@ -20,7 +20,7 @@ jobs:
           find . -type f -perm /111 -name "*.sh" | head -10 || true
 
       - name: Check for secrets
-        uses: trufflesecurity/trufflehog@8a83df83c66e0b5c7ee6b3cd5636dd2d2c0c7c56 # v3.88.0
+        uses: trufflesecurity/trufflehog@8a8ef8526528d8a4ff3e2c90be08e25ef8efbd9b # v3.88.3
         with:
           path: ./
           base: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -45,7 +45,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           persist-credentials: false
       - name: Check documentation
