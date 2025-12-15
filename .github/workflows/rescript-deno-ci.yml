@@ -28,10 +28,13 @@ jobs:
         run: deno test --allow-all --coverage=coverage
 
       - name: ReScript build
+        # Note: RSR prefers avoiding npm. This uses pinned versions for reproducibility.
+        # Consider switching to esno/Deno-native ReScript tooling when available.
         run: |
           if [ -f "rescript.json" ] || [ -f "bsconfig.json" ]; then
-            npm install
-            npx rescript
+            # Pin to specific version for supply chain security
+            npm install --ignore-scripts rescript@11.1.4 @rescript/core@1.6.1
+            npx --yes rescript@11.1.4
           fi
 
       - name: Type check
