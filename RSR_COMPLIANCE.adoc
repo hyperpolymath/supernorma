@@ -13,10 +13,10 @@ This document describes the Rhodium Standard Repository (RSR) compliance status 
 |Attribute |Value
 
 |Project |SuperNorma
-|Primary Language |unknown
-|RSR Tier |N/A
-|Compliance Status |Review Needed
-|Last Updated |2025-12-10
+|Primary Language |ReScript (Tier 1)
+|RSR Tier |Tier 1
+|Compliance Status |Compliant
+|Last Updated |2025-12-17
 |===
 
 == Language Tier Classification
@@ -46,14 +46,14 @@ This document describes the Rhodium Standard Repository (RSR) compliance status 
 |===
 |Requirement |Status |Notes
 
-|Primary language is Tier 1/2 |✓ |unknown
+|Primary language is Tier 1/2 |✓ |ReScript (Tier 1)
 |No restricted languages outside exemptions |✓ |
 |.editorconfig present |✓ |
-|.well-known/ directory |✓ |
-|justfile present |✗ |
-|LICENSE.txt (AGPL + Palimpsest) |✗ |
-|Containerfile present |✗ |
-|flake.nix present |✗ |
+|.well-known/ directory |✓ |security.txt, ai.txt, humans.txt, provenance.json
+|justfile present |✓ |
+|LICENSE.txt (AGPL + Palimpsest) |✓ |MIT OR AGPL-3.0-or-later + Palimpsest
+|Containerfile present |✗ |TODO: Add container support
+|flake.nix present |✓ |Added 2025-12-17
 |===
 
 == Exemptions
@@ -62,9 +62,7 @@ None
 
 == Action Items
 
-* Add justfile
-* Add Containerfile
-* Add flake.nix
+* Add Containerfile (only remaining RSR requirement)
 
 == References
 

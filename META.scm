@@ -26,21 +26,19 @@
 ;; CROSS-PLATFORM STATUS (Added 2025-12-17)
 ;; ============================================================================
 
-(cross-platform-status
-  (generated "2025-12-17")
-  (primary-platform "github")
-  (gitlab-mirror
-    (path "hyperpolymath/extensions/office/SuperNorma")
-    (url "https://gitlab.com/hyperpolymath/extensions/office/SuperNorma")
-    (last-gitlab-activity "2025-12-16")
-    (sync-status "gh-primary")
-    (notes "GitHub slightly newer. Safe to sync GH→GL."))
-  
-  (reconciliation-instructions
-    ";; git remote add gitlab https://gitlab.com/hyperpolymath/extensions/office/SuperNorma.git"
-    ";; git fetch gitlab && git log gitlab/main --oneline"
-    ";; git diff main gitlab/main"
-    ";; git merge gitlab/main --allow-unrelated-histories  # if needed")
-  
-  (action-required "gh-primary"))
+(define cross-platform-status
+  '((generated . "2025-12-17")
+    (primary-platform . "github")
+    (gitlab-mirror
+     ((path . "hyperpolymath/extensions/office/SuperNorma")
+      (url . "https://gitlab.com/hyperpolymath/extensions/office/SuperNorma")
+      (last-gitlab-activity . "2025-12-16")
+      (sync-status . "gh-primary")
+      (notes . "GitHub slightly newer. Safe to sync GH→GL.")))
+    (reconciliation-instructions
+     . ("git remote add gitlab https://gitlab.com/hyperpolymath/extensions/office/SuperNorma.git"
+        "git fetch gitlab && git log gitlab/main --oneline"
+        "git diff main gitlab/main"
+        "git merge gitlab/main --allow-unrelated-histories"))
+    (action-required . "gh-primary")))
 

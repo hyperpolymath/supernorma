@@ -8,6 +8,9 @@
              ((guix licenses) #:prefix license:)
              (gnu packages base))
 
+;; SPDX-License-Identifier: MIT OR AGPL-3.0-or-later
+;; SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
+
 (define-public supernorma
   (package
     (name "SuperNorma")
@@ -19,7 +22,8 @@
     (synopsis "Guix channel/infrastructure")
     (description "Guix channel/infrastructure - part of the RSR ecosystem.")
     (home-page "https://github.com/hyperpolymath/SuperNorma")
-    (license license:agpl3+)))
+    ;; Dual licensed: MIT OR AGPL-3.0-or-later (user's choice)
+    (license (list license:expat license:agpl3+))))
 
 ;; Return package for guix shell
 supernorma
