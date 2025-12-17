@@ -3,7 +3,7 @@
 ;; SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
 
 (define metadata
-  '((version . "0.1.0") (updated . "2025-12-15") (project . "supernorma")))
+  '((version . "0.1.0") (updated . "2025-12-17") (project . "supernorma")))
 
 (define current-position
   '((phase . "v0.1 - Initial Setup")
@@ -19,4 +19,4 @@
   '((snapshots ((date . "2025-12-15") (session . "initial") (notes . "SCM files added")))))
 
 (define state-summary
-  '((project . "supernorma") (completion . 25) (blockers . 0) (updated . "2025-12-15")))
+  '((project . "supernorma") (completion . 30) (blockers . 0) (updated . "2025-12-17")))
