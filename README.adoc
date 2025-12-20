@@ -1,60 +1,176 @@
-= SuperNorma
-Jonathan D.A. Jewell <jonathan.jewell@gmail.com>
-:toc: macro
-:icons: font
-:source-highlighter: rouge
-:experimental:
-:url-github: https://github.com/hyperpolymath/SuperNorma
-:url-gitlab: https://gitlab.com/hyperpolymath/SuperNorma
-:url-bitbucket: https://bitbucket.org/hyperpolymath/SuperNorma
-:url-codeberg: https://codeberg.org/hyperpolymath/SuperNorma
+= Supranorma
 
-Super normalized data structures
+> Beyond Normal: A comprehensive suite of AI-powered development tools, data processing framework, and productivity utilities.
 
-image:https://img.shields.io/badge/RSR-Certified-gold[RSR Certified,link=https://github.com/hyperpolymath/rhodium-standard-repositories]
-image:https://img.shields.io/badge/License-AGPL%20v3-blue[License]
-
-toc::[]
+[![ReScript](https://img.shields.io/badge/ReScript-11%2B-red)](https://rescript-lang.org/)
+[![Deno](https://img.shields.io/badge/Deno-2.x-black)](https://deno.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
 == Overview
-Domain: *software-development*
 
-== Installation
+*Supranorma* is a ReScript + Deno codebase containing multiple integrated modules designed to supercharge your development workflow:
 
-[source,bash]
-----
-# Clone from GitHub (primary)
-git clone {url-github}
+- *AI Core* - AI integration library for code analysis, generation, and intelligent tooling
+- *CLI* - Powerful command-line interface with AI-powered features
+- *Data Framework* - High-performance data processing and transformation framework
+- *Web App* - Full-stack application for project management and collaboration
+- *Dev Tools* - Developer productivity suite for automation and code quality
 
-# Or from mirrors
-git clone {url-gitlab}
-git clone {url-codeberg}
-----
+== Quick Start
 
-== Mirrors
+```bash
+= Install dependencies
+deno install
 
-[cols="1,2"]
-|===
-| Platform | URL
+= Build ReScript
+deno task rescript:build
 
-| GitHub (primary) | {url-github}
-| GitLab | {url-gitlab}
-| Bitbucket | {url-bitbucket}
-| Codeberg | {url-codeberg}
-|===
+= Run tests
+deno task test
+
+= Start the CLI
+deno task cli
+
+= Start the backend server
+deno task dev:backend
+```
+
+== Modules
+
+=== Shared
+Core utilities used across all modules:
+- Logger with structured logging
+- Error handling with custom types
+- Async utilities (Queue, Semaphore, Mutex)
+- Validators and configuration management
+
+=== AiCore
+AI integration library providing:
+- LLM integration (Anthropic Claude, OpenAI GPT)
+- Code analysis and understanding
+- AI-powered code generation
+- Intelligent refactoring suggestions
+- Prompt templates and chat management
+
+=== Cli
+Command-line interface featuring:
+- `analyze <file>` - AI-powered code analysis
+- `generate` - Generate code from description
+- `chat` - Interactive AI chat
+- `explain <file>` - Explain what code does
+- `refactor <file>` - Get refactoring suggestions
+- `test <file>` - Generate tests for code
+- `init` - Initialize configuration
+
+=== DataFramework
+Data processing framework with:
+- Composable ETL pipelines
+- Multiple sources (JSON, CSV, JSONL, Array, Generator)
+- Multiple sinks (JSON, CSV, JSONL, Console, Array, Callback)
+- Transformers (map, filter, rename, pick, omit, etc.)
+- Validators and aggregators
+
+=== WebApp
+Full-stack web application:
+- Oak backend with JWT authentication
+- ReScript React frontend
+- Project and task management
+- AI assistant integration
+
+=== DevTools
+Developer productivity suite:
+- Git automation with conventional commits
+- Project scaffolding from templates
+- Code quality checking
+
+== Development
+
+```bash
+= Build ReScript
+deno task rescript:build
+
+= Watch mode
+deno task rescript:watch
+
+= Run tests
+deno task test
+
+= Lint code
+deno lint
+
+= Format code
+deno fmt
+
+= Clean build artifacts
+deno task rescript:clean
+```
+
+== Architecture
+
+This is a ReScript codebase running on Deno. Each module is independently usable but they work together seamlessly.
+
+```
+supranorma/
+├── src/
+│   ├── shared/           # Core utilities
+│   ├── ai-core/          # AI integration
+│   ├── cli/              # Command-line interface
+│   ├── data-framework/   # Data processing
+│   ├── dev-tools/        # Developer tools
+│   ├── web-app/          # Full-stack app
+│   │   ├── backend/      #   Oak server
+│   │   └── frontend/     #   React app
+│   └── mod.res           # Main entry point
+├── docs/                 # Documentation
+├── .github/workflows/    # CI/CD
+├── deno.json            # Deno configuration
+├── rescript.json        # ReScript configuration
+└── CLAUDE.md            # AI assistant guide
+```
+
+== Language Policy
+
+This project enforces strict language policies:
+
+- *ReScript only* - No TypeScript files allowed
+- *Deno only* - No npm/Node.js dependencies
+- *No Python* - Python files are forbidden
+
+CI/CD workflows automatically block any commits containing forbidden file types.
+
+== Environment Setup
+
+Create a `.env` file:
+
+```bash
+= LLM Provider (anthropic or openai)
+SUPRANORMA_LLM_PROVIDER=anthropic
+
+= API Keys
+ANTHROPIC_API_KEY=your_key_here
+= or
+= OPENAI_API_KEY=your_key_here
+
+= Optional
+SUPRANORMA_LLM_MODEL=claude-3-5-sonnet-20241022
+SUPRANORMA_LLM_MAX_TOKENS=4096
+PORT=3000
+JWT_SECRET=your_secret
+```
+
+== Requirements
+
+- Deno >= 2.0
+- Git
+
+== Documentation
+
+- [Getting Started Guide](docs/getting-started.md)
+- [Architecture Overview](docs/architecture.md)
+- [API Documentation](docs/api/README.md)
+- [Contributing Guide](docs/contributing.md)
+- [AI Assistant Guide](CLAUDE.md)
 
 == License
 
-Licensed under AGPL-3.0-or-later OR LicenseRef-Palimpsest-0.5.
-
-See link:LICENSE[LICENSE] for details.
-
-== Contributing
-
-See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc].
-
-== Metadata
-
-* Domain: software-development
-* Framework: RSR (Rhodium Standard Repository)
-* Dublin Core: link:.well-known/dc.xml[.well-known/dc.xml]
+MIT © Hyperpolymath
