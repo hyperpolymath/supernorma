@@ -1,0 +1,49 @@
+{
+  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+  "name": "@hyperpolymath/supernorma",
+  "version": "0.1.0",
+  "exports": "./src/mod.ts",
+  "tasks": {
+    "rescript:build": "npx rescript build",
+    "rescript:clean": "npx rescript clean",
+    "rescript:watch": "npx rescript build -w",
+    "test": "deno test --allow-read --allow-write --allow-env tests/",
+    "test:unit": "deno test --allow-read tests/unit/",
+    "test:integration": "deno test --allow-read --allow-write tests/integration/",
+    "lint": "deno lint src/",
+    "fmt": "deno fmt src/ tests/",
+    "check": "deno check src/**/*.js",
+    "dev": "deno run --allow-read --allow-write --allow-env --watch src/mod.js",
+    "build": "deno task rescript:build",
+    "clean": "deno task rescript:clean"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.0",
+    "@std/testing": "jsr:@std/testing@^1.0.0",
+    "@std/path": "jsr:@std/path@^1.0.0",
+    "@std/fs": "jsr:@std/fs@^1.0.0",
+    "@std/csv": "jsr:@std/csv@^1.0.0"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true
+  },
+  "lint": {
+    "include": ["src/", "tests/"],
+    "exclude": ["src/**/*.res.js"],
+    "rules": {
+      "tags": ["recommended"],
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "fmt": {
+    "include": ["src/", "tests/"],
+    "exclude": ["src/**/*.res.js"],
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "singleQuote": true
+  },
+  "test": {
+    "include": ["tests/"]
+  }
+}
