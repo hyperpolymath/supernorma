@@ -8,7 +8,7 @@
              ((guix licenses) #:prefix license:)
              (gnu packages base))
 
-;; SPDX-License-Identifier: MIT OR AGPL-3.0-or-later
+;; SPDX-License-Identifier: PMPL-1.0-or-later
 ;; SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
 
 (define-public supernorma
