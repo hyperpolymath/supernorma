@@ -192,3 +192,8 @@ JWT_SECRET=your_secret
 == License
 
 MIT © Hyperpolymath
+
+
+== Architecture
+
+See link:TOPOLOGY.md[TOPOLOGY.md] for a visual architecture map and completion dashboard.
