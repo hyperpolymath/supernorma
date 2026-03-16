@@ -22,7 +22,7 @@
     (synopsis "Guix channel/infrastructure")
     (description "Guix channel/infrastructure - part of the RSR ecosystem.")
     (home-page "https://github.com/hyperpolymath/SuperNorma")
-    ;; Dual licensed: MIT OR AGPL-3.0-or-later (user's choice)
+    ;; Dual licensed: MIT OR PMPL-1.0-or-later (user's choice)
     (license (list license:expat license:agpl3+))))
 
 ;; Return package for guix shell

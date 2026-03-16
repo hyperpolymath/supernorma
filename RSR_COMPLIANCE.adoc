@@ -51,7 +51,7 @@ This document describes the Rhodium Standard Repository (RSR) compliance status 
 |.editorconfig present |✓ |
 |.well-known/ directory |✓ |security.txt, ai.txt, humans.txt, provenance.json
 |justfile present |✓ |
-|LICENSE.txt (AGPL + Palimpsest) |✓ |MIT OR AGPL-3.0-or-later + Palimpsest
+|LICENSE.txt (AGPL + Palimpsest) |✓ |MIT OR PMPL-1.0-or-later + Palimpsest
 |Containerfile present |✗ |TODO: Add container support
 |flake.nix present |✓ |Added 2025-12-17
 |===
