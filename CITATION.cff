@@ -18,7 +18,7 @@ abstract: "RSR-compliant project"
 keywords:
   - RSR
   - rhodium-standard
-license: "PMPL-1.0-or-later"
+license: "MPL-2.0"
 license-url: "https://github.com/hyperpolymath/SuperNorma/blob/main/LICENSE.txt"
 version: "0.1.0"
 date-released: "2025-12-10"
