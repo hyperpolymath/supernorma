@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: MPL-2.0
 name: Semgrep SAST
-
 on:
   push:
     branches: [main, master]
@@ -9,10 +8,8 @@ on:
   schedule:
     - cron: '0 5 * * *'
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   semgrep:
     runs-on: ubuntu-latest
@@ -24,12 +21,10 @@ jobs:
       image: semgrep/semgrep
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
       - name: Run Semgrep
         run: semgrep scan --sarif --output=semgrep.sarif --config=auto .
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v3.28.1
         with:

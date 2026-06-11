@@ -1,11 +1,8 @@
 # SPDX-License-Identifier: MPL-2.0
 name: ReScript/Deno CI
-
 on: [push, pull_request]
-
 permissions:
   contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,16 +16,12 @@ jobs:
       - uses: denoland/setup-deno@909cc5acb0fdd60627fb858598759246509fa755 # v2.0.2
         with:
           deno-version: v1.x
-
       - name: Deno lint
         run: deno lint
-
       - name: Deno fmt check
         run: deno fmt --check
-
       - name: Deno test
         run: deno test --allow-all --coverage=coverage
-
       - name: ReScript build
         # Note: RSR prefers avoiding npm. This uses pinned versions for reproducibility.
         # Consider switching to esno/Deno-native ReScript tooling when available.
@@ -38,10 +31,8 @@ jobs:
             npm install --ignore-scripts rescript@11.1.4 @rescript/core@1.6.1
             npx --yes rescript@11.1.4
           fi
-
       - name: Type check
         run: deno check **/*.ts || true
-
   security:
     runs-on: ubuntu-latest
     timeout-minutes: 15
