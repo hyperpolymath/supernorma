@@ -9,6 +9,10 @@
  * for analyzing income, expenses, and pension growth.
  */
 
+// PROJECT METADATA
+let version = "0.1.0"
+let projectName = "SuperNorma"
+
 // DATA MODELS: Typed representations of financial entities.
 type financialRecord = {
   income: float,
@@ -17,6 +21,28 @@ type financialRecord = {
 }
 
 type pensionType = DB | DC | SIPP | ISA | State
+
+type pensionRecord = {
+  pensionType: pensionType,
+  amount: float,
+  contributionPercent: float,
+  drawdownAge: int,
+}
+
+/**
+ * NET INCOME: Income remaining after expenses for one record.
+ */
+let calculateNetIncome = (record: financialRecord): float => {
+  record.income -. record.expenses
+}
+
+/**
+ * SURPLUS CHECK: True only when income strictly exceeds expenses;
+ * break-even is not a surplus.
+ */
+let isSurplus = (record: financialRecord): bool => {
+  record.income > record.expenses
+}
 
 /**
  * PROJECTION: Calculates the future value of a pension pot.
@@ -35,7 +61,7 @@ let calculatePensionProjection = (
     pension.amount
   } else {
     let futureValue =
-      pension.amount *. Math.pow(1.0 +. annualGrowthRate, Int.toFloat(yearsToRetirement))
+      pension.amount *. Math.pow(1.0 +. annualGrowthRate, ~exp=Int.toFloat(yearsToRetirement))
     Math.round(futureValue *. 100.0) /. 100.0
   }
 }

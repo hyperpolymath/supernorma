@@ -3,53 +3,38 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 -->
 <!-- TOPOLOGY.md — Project architecture map and completion dashboard -->
-<!-- Last updated: 2026-02-19 -->
+<!-- Last updated: 2026-07-02 (honesty pass: dashboard now reflects the actual tree) -->
 
-# Supranorma — Project Topology
+# SuperNorma — Project Topology
 
 ## System Architecture
 
 ```
-                        ┌─────────────────────────────────────────┐
-                        │              DEVELOPER / USER           │
-                        │        (CLI Interface / Web App UI)     │
-                        └───────────────────┬─────────────────────┘
-                                            │ Command / Request
-                                            ▼
-                        ┌─────────────────────────────────────────┐
-                        │           SUPRANORMA CORE (RESCRIPT)    │
-                        │                                         │
-                        │  ┌───────────┐  ┌───────────────────┐  │
-                        │  │  AI Core  │  │  Data Framework   │  │
-                        │  │ (Inference)│ │  (ETL Pipelines)  │  │
-                        │  └─────┬─────┘  └────────┬──────────┘  │
-                        │        │                 │              │
-                        │  ┌─────▼─────┐  ┌────────▼──────────┐  │
-                        │  │ CLI Tool  │  │  Web App          │  │
-                        │  │ (Deno)    │  │ (Oak/React)       │  │
-                        │  └─────┬─────┘  └────────┬──────────┘  │
-                        └────────│─────────────────│──────────────┘
-                                 │                 │
-                                 ▼                 ▼
-                        ┌─────────────────────────────────────────┐
-                        │           EXTERNAL SERVICES             │
-                        │  ┌───────────┐  ┌───────────────────┐  │
-                        │  │ Anthropic │  │  OpenAI API       │  │
-                        │  │ (Claude)  │  │  (GPT-4)          │  │
-                        │  └───────────┘  └───────────────────┘  │
-                        └───────────────────┬─────────────────────┘
-                                            │
-                                            ▼
-                        ┌─────────────────────────────────────────┐
-                        │          TARGET CODEBASE / DATA         │
-                        │      (Analysis, Generation, Transforms) │
-                        └─────────────────────────────────────────┘
-
-                        ┌─────────────────────────────────────────┐
-                        │          REPO INFRASTRUCTURE            │
-                        │  Justfile Automation  .machine_readable/  │
-                        │  Deno 2.x Runtime     0-AI-MANIFEST.a2ml  │
-                        └─────────────────────────────────────────┘
+        ┌─────────────────────────────────────────┐
+        │                  USER                   │
+        │   (web form / Power BI / future chat)   │
+        └───────┬───────────────┬─────────────────┘
+                │               │
+                ▼               ▼
+    ┌───────────────────┐  ┌──────────────────────┐
+    │  ui/webform.html  │  │  Power BI workbook   │
+    │  + src/UI.res     │  │  (dax/ measures over │
+    │  (form hook)      │  │   workbook/ CSVs)    │
+    └────────┬──────────┘  └──────────┬───────────┘
+             │ (not wired yet)        │
+             ▼                        ▼
+    ┌─────────────────────────────────────────────┐
+    │       CALCULATION CORE (src/Mod.res)        │
+    │  net income · surplus · total savings ·     │
+    │  pension projection (DB/DC/SIPP/ISA/State)  │
+    └────────────────────┬────────────────────────┘
+                         │ (future)
+                         ▼
+    ┌─────────────────────────────────────────────┐
+    │   ADVISOR (advisor/system_prompt.txt)       │
+    │   LLM persona: Bookkeeper / Forensic        │
+    │   Analyst / Empowered Advocate — UNWIRED    │
+    └─────────────────────────────────────────────┘
 ```
 
 ## Completion Dashboard
@@ -57,34 +42,47 @@ Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 ```
 COMPONENT                          STATUS              NOTES
 ─────────────────────────────────  ──────────────────  ─────────────────────────────────
-CORE MODULES (RESCRIPT)
-  AiCore (LLM Integration)          ██████████ 100%    Claude/GPT-4 stable
-  DataFramework (ETL)               ██████████ 100%    JSON/CSV/JSONL stable
-  Shared Utilities                  ██████████ 100%    Async queue & logger verified
-  Web App (Frontend/Backend)        ████████░░  80%    JWT auth & task mgmt active
+CALCULATION CORE (RESCRIPT)
+  Mod.res (finance kernels)        ████████░░  80%    Compiles; unit tests specify API
+  UI.res (form hook)               ███░░░░░░░  30%    Submits to alert(); not wired to core
+  Deno bindings (src/bindings/)    ████████░░  80%    Thin externals; used by tests
 
-INTERFACES & TOOLS
-  CLI (supranorma)                  ██████████ 100%    Full command set verified
-  DevTools (Git/Scaffolding)        ██████████ 100%    Git automation verified
-  Advisor Module                    ████████░░  80%    Refactoring logic stable
+CONTENT
+  DAX measures (dax/)              ██████░░░░  60%    3 measures mirroring the core
+  CSV templates (workbook/, data/) ██████░░░░  60%    Sample income + pension models
+  Web form (ui/webform.html)       █████░░░░░  50%    Static form, no persistence
+  Advisor prompt (advisor/)        ███░░░░░░░  30%    Persona text only; no model wiring
+
+TESTS
+  Unit (Mod/Data)                  ██████░░░░  60%    Real value assertions; need compiled
+                                                      *_test.res.js to run under deno test
+  Integration (Config/Html_form)   ████░░░░░░  40%    File-presence checks; repointed at
+                                                      files that exist
 
 REPO INFRASTRUCTURE
-  Justfile Automation               ██████████ 100%    Standard build/test tasks
-  .machine_readable/                ██████████ 100%    STATE tracking active
-  Language Policy (ReScript)        ██████████ 100%    RSR stack verified
+  deno.json tasks                  ████████░░  80%    build/test/lint/fmt defined
+  Justfile                         ███████░░░  70%    Delegates to deno tasks
+  CI workflows (15)                ██████░░░░  60%    Heavy for repo size; external deps
 
 ─────────────────────────────────────────────────────────────────────────────
-OVERALL:                            █████████░  ~90%   Stable and feature-rich suite
+OVERALL:                            ██░░░░░░░░  ~20%   Early development
 ```
 
-## Key Dependencies
+Previous versions of this dashboard described an AI developer-tools suite
+(AiCore, DataFramework, CLI, WebApp, DevTools) at ~90% completion. Those
+modules were never present in this repository; the dashboard now tracks what
+actually exists.
 
-```
-AI Config ───────► AiCore Engine ──────► CLI Analysis ─────► Feedback
-     │                 │                   │                 │
-     ▼                 ▼                   ▼                 ▼
-Data Source ────► DataFramework ──────► Web App UI ───────► Display
-```
+## Path to a usable v0.1
+
+1. Compile ReScript so `src/Mod.res.js` (the declared deno.json export) and
+   the `*_test.res.js` files exist; make `deno task test` green
+2. Wire the web form to the calculation core and render results
+3. Wire the advisor persona to a local LLM (e.g. LM Studio's
+   OpenAI-compatible localhost API) with the calculation core supplying
+   every number
+4. CSV import: parse `workbook/` templates via `@std/csv` into
+   `financialRecord`/`pensionRecord` values
 
 ## Update Protocol
 

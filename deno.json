@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "exports": "./src/Mod.res.js",
   "tasks": {
-    "rescript:build": "npx rescript build",
-    "rescript:clean": "npx rescript clean",
-    "rescript:watch": "npx rescript build -w",
+    "rescript:build": "npx -y rescript@12.3.0 build",
+    "rescript:clean": "npx -y rescript@12.3.0 clean",
+    "rescript:watch": "npx -y rescript@12.3.0 build -w",
     "test": "deno test --allow-read --allow-write --allow-env tests/",
     "test:unit": "deno test --allow-read tests/unit/",
     "test:integration": "deno test --allow-read --allow-write tests/integration/",
@@ -29,21 +29,37 @@
     "noImplicitAny": true
   },
   "lint": {
-    "include": ["src/", "tests/"],
-    "exclude": ["src/**/*.res.js"],
+    "include": [
+      "src/",
+      "tests/"
+    ],
+    "exclude": [
+      "src/**/*.res.js"
+    ],
     "rules": {
-      "tags": ["recommended"],
-      "exclude": ["no-explicit-any"]
+      "tags": [
+        "recommended"
+      ],
+      "exclude": [
+        "no-explicit-any"
+      ]
     }
   },
   "fmt": {
-    "include": ["src/", "tests/"],
-    "exclude": ["src/**/*.res.js"],
+    "include": [
+      "src/",
+      "tests/"
+    ],
+    "exclude": [
+      "src/**/*.res.js"
+    ],
     "indentWidth": 2,
     "lineWidth": 100,
     "singleQuote": true
   },
   "test": {
-    "include": ["tests/"]
+    "include": [
+      "tests/"
+    ]
   }
 }

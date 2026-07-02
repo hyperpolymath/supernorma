@@ -24,24 +24,23 @@ jobs:
           persist-credentials: false
       - uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2.0.4
         with:
-          deno-version: v1.x
+          deno-version: v2.x
+      - name: ReScript build
+        # Note: RSR prefers avoiding npm. This uses pinned versions for reproducibility.
+        # Consider switching to esno/Deno-native ReScript tooling when available.
+        # ReScript 12 ships the Core stdlib built in, so no @rescript/core dep.
+        run: |
+          if [ -f "rescript.json" ] || [ -f "bsconfig.json" ]; then
+            # Pin to specific version for supply chain security
+            npm install --ignore-scripts rescript@12.3.0
+            ./node_modules/.bin/rescript build
+          fi
       - name: Deno lint
         run: deno lint
       - name: Deno fmt check
         run: deno fmt --check
       - name: Deno test
         run: deno test --allow-all --coverage=coverage
-      - name: ReScript build
-        # Note: RSR prefers avoiding npm. This uses pinned versions for reproducibility.
-        # Consider switching to esno/Deno-native ReScript tooling when available.
-        run: |
-          if [ -f "rescript.json" ] || [ -f "bsconfig.json" ]; then
-            # Pin to specific version for supply chain security
-            npm install --ignore-scripts rescript@11.1.4 @rescript/core@1.6.1
-            npx --yes rescript@11.1.4
-          fi
-      - name: Type check
-        run: deno check **/*.ts || true
   security:
     runs-on: ubuntu-latest
     timeout-minutes: 15

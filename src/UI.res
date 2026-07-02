@@ -11,6 +11,7 @@
 
 @val @scope("document") external querySelector: string => Nullable.t<Dom.element> = "querySelector"
 @set external setOnsubmit: (Dom.element, unit => unit) => unit = "onsubmit"
+@val external alert: string => unit = "alert"
 
 /**
  * INITIALIZATION: Scans the document for the primary input form.

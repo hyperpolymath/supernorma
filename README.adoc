@@ -1,205 +1,78 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
-= Supranorma
-image:https://img.shields.io/badge/OpenSSF-Best_Practices-green?logo=openssourcesecurity[OpenSSF Best Practices,link="https://www.bestpractices.dev/en/projects/new?repo_url=https://github.com/hyperpolymath/supernorma"]
-
-
+= SuperNorma
 image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[License: MPL-2.0,link="https://opensource.org/licenses/MPL-2.0"]
-image:https://img.shields.io/badge/Philosophy-Palimpsest-indigo.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-license"]
+image:https://img.shields.io/badge/ReScript-11%2B-red[ReScript,link="https://rescript-lang.org/"]
+image:https://img.shields.io/badge/Deno-2.x-black[Deno,link="https://deno.com/"]
+image:https://img.shields.io/badge/status-early%20development-orange[Status]
 
+> Financial self-awareness: a small, deterministic personal-finance and
+> pension-projection toolkit.
 
-> Beyond Normal: A comprehensive suite of AI-powered development tools, data processing framework, and productivity utilities.
+== What this is
 
-[![ReScript](https://img.shields.io/badge/ReScript-11%2B-red)](https://rescript-lang.org/)
-[![Deno](https://img.shields.io/badge/Deno-2.x-black)](https://deno.com/)
+SuperNorma is an early-stage personal-finance helper. It gives you a clear,
+verifiable picture of income, expenses, savings, and pension outlook using
+deterministic calculations — no black boxes. The pieces:
 
-== Overview
+- *Calculation core* (`src/Mod.res`, ReScript): net income, surplus detection,
+  total savings, and compound-interest pension projection across pension types
+  (DB, DC, SIPP, ISA, State)
+- *Web form* (`ui/webform.html`): a static income/expenses entry form
+- *Power BI measures* (`dax/`): `TotalSavings`, `NetIncome`, and `IsSurplus`
+  DAX formulas mirroring the ReScript core
+- *Workbook templates* (`workbook/`, `data/sample_input/`): CSV templates for
+  income and pension modelling
+- *Advisor persona* (`advisor/system_prompt.txt`): a system prompt that frames
+  an LLM assistant through three lenses — Bookkeeper (accuracy and
+  reconciliation), Forensic Analyst (cause and consequence), and Empowered
+  Advocate (ethical clarity and action)
 
-*Supranorma* is a ReScript + Deno codebase containing multiple integrated modules designed to supercharge your development workflow:
+== What this is not (yet)
 
-- *AI Core* - AI integration library for code analysis, generation, and intelligent tooling
-- *CLI* - Powerful command-line interface with AI-powered features
-- *Data Framework* - High-performance data processing and transformation framework
-- *Web App* - Full-stack application for project management and collaboration
-- *Dev Tools* - Developer productivity suite for automation and code quality
+The advisor persona is not wired to any model; the web form is not wired to
+the calculation core; there is no CLI, ETL framework, or web app. See
+link:TOPOLOGY.md[TOPOLOGY.md] for an honest component-by-component status.
 
 == Quick Start
 
-```bash
-= Install dependencies
+[source,bash]
+----
+# Build ReScript
+deno task build
 
-deno install
-
-= Build ReScript
-
-deno task rescript:build
-
-= Run tests
-
+# Run tests
 deno task test
 
-= Start the CLI
+# Lint / format
+deno task lint
+deno task fmt
+----
 
-deno task cli
+== Layout
 
-= Start the backend server
-
-deno task dev:backend
-```
-
-== Modules
-
-=== Shared
-Core utilities used across all modules:
-- Logger with structured logging
-- Error handling with custom types
-- Async utilities (Queue, Semaphore, Mutex)
-- Validators and configuration management
-
-=== AiCore
-AI integration library providing:
-- LLM integration (Anthropic Claude, OpenAI GPT)
-- Code analysis and understanding
-- AI-powered code generation
-- Intelligent refactoring suggestions
-- Prompt templates and chat management
-
-=== Cli
-Command-line interface featuring:
-- `analyze <file>` - AI-powered code analysis
-- `generate` - Generate code from description
-- `chat` - Interactive AI chat
-- `explain <file>` - Explain what code does
-- `refactor <file>` - Get refactoring suggestions
-- `test <file>` - Generate tests for code
-- `init` - Initialize configuration
-
-=== DataFramework
-Data processing framework with:
-- Composable ETL pipelines
-- Multiple sources (JSON, CSV, JSONL, Array, Generator)
-- Multiple sinks (JSON, CSV, JSONL, Console, Array, Callback)
-- Transformers (map, filter, rename, pick, omit, etc.)
-- Validators and aggregators
-
-=== WebApp
-Full-stack web application:
-- Oak backend with JWT authentication
-- ReScript React frontend
-- Project and task management
-- AI assistant integration
-
-=== DevTools
-Developer productivity suite:
-- Git automation with conventional commits
-- Project scaffolding from templates
-- Code quality checking
-
-== Development
-
-```bash
-= Build ReScript
-
-deno task rescript:build
-
-= Watch mode
-
-deno task rescript:watch
-
-= Run tests
-
-deno task test
-
-= Lint code
-
-deno lint
-
-= Format code
-
-deno fmt
-
-= Clean build artifacts
-
-deno task rescript:clean
-```
-
-== Architecture
-
-This is a ReScript codebase running on Deno. Each module is independently usable but they work together seamlessly.
-
-```
-supranorma/
-├── src/
-│   ├── shared/           # Core utilities
-│   ├── ai-core/          # AI integration
-│   ├── cli/              # Command-line interface
-│   ├── data-framework/   # Data processing
-│   ├── dev-tools/        # Developer tools
-│   ├── web-app/          # Full-stack app
-│   │   ├── backend/      #   Oak server
-│   │   └── frontend/     #   React app
-│   └── mod.res           # Main entry point
-├── docs/                 # Documentation
-├── .github/workflows/    # CI/CD
-├── deno.json            # Deno configuration
-├── rescript.json        # ReScript configuration
-└── CLAUDE.md            # AI assistant guide
-```
-
-== Language Policy
-
-This project enforces strict language policies:
-
-- *ReScript only* - No TypeScript files allowed
-- *Deno only* - No npm/Node.js dependencies
-- *No Python* - Python files are forbidden
-
-CI/CD workflows automatically block any commits containing forbidden file types.
-
-== Environment Setup
-
-Create a `.env` file:
-
-```bash
-= LLM Provider (anthropic or openai)
-
-SUPRANORMA_LLM_PROVIDER=anthropic
-
-= API Keys
-
-ANTHROPIC_API_KEY=your_key_here
-= or
-
-= OPENAI_API_KEY=your_key_here
-
-= Optional
-
-SUPRANORMA_LLM_MODEL=claude-3-5-sonnet-20241022
-SUPRANORMA_LLM_MAX_TOKENS=4096
-PORT=3000
-JWT_SECRET=your_secret
-```
+[cols="1,3"]
+|===
+| `src/Mod.res` | Financial calculation kernels (the real core)
+| `src/UI.res` | Web-form DOM hook
+| `src/bindings/` | Thin ReScript bindings for Deno APIs
+| `tests/` | Unit and integration tests (Deno test over compiled ReScript)
+| `dax/` | Power BI DAX measures and columns
+| `workbook/`, `data/` | CSV templates and sample input
+| `advisor/` | LLM advisor system prompt (not yet wired)
+| `ui/` | Static HTML income form
+|===
 
 == Requirements
 
-- Deno >= 2.0
+- Deno >= 2.0 (the ReScript compiler is currently fetched via `npx` during
+  `deno task build`; making that Deno-native is an open task)
 - Git
-
-== Documentation
-
-- [Getting Started Guide](docs/getting-started.md)
-- [Architecture Overview](docs/architecture.md)
-- [API Documentation](docs/api/README.md)
-- [Contributing Guide](docs/contributing.md)
-- [AI Assistant Guide](CLAUDE.md)
 
 == License
 
-This project is licensed under the Mozilla Public License, v. 2.0. See the `LICENSE` file for details.
+Code is licensed MPL-2.0 (see `LICENSE`); documentation is CC-BY-SA-4.0.
 
-SPDX-License-Identifier: CC-BY-SA-4.0
+== Author
 
-
-== Architecture
-
-See link:TOPOLOGY.md[TOPOLOGY.md] for a visual architecture map and completion dashboard.
+Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
