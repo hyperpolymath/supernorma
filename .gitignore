@@ -38,7 +38,7 @@ erl_crash.dump
 /Manifest.toml
 
 # ReScript
-/lib/bs/
+/lib/
 /.bsb.lock
 
 # Python (SaltStack only)

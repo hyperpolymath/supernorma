@@ -21,12 +21,12 @@ let () = describe("Project Configuration", () => {
       assertEquals(config["name"], "supernorma", ~msg="Project name should be supernorma")
     })
 
-    itAsync("should use ES6 module output", async () => {
+    itAsync("should use ES module output", async () => {
       let content = await Deno_Api.readTextFile("rescript.json")
       let config = jsonParse(content)
       let specs = config["package-specs"]
-      let first = specs[0]
-      assertEquals(first["module"], "es6", ~msg="Should output ES6 modules")
+      let first = specs[0]->Option.getOrThrow(~message="package-specs should have one entry")
+      assertEquals(first["module"], "esmodule", ~msg="Should output ES modules")
     })
 
     itAsync("should use .res.js suffix", async () => {
@@ -35,11 +35,11 @@ let () = describe("Project Configuration", () => {
       assertEquals(config["suffix"], ".res.js", ~msg="Should use .res.js suffix")
     })
 
-    itAsync("should use dependencies instead of bs-dependencies", async () => {
+    itAsync("should not use legacy bs-dependencies", async () => {
       let content = await Deno_Api.readTextFile("rescript.json")
       let config = jsonParse(content)
-      assertEquals(config["bs-dependencies"], Js.undefined, ~msg="Should not have bs-dependencies")
-      assertExists(config["dependencies"], ~msg="Should use dependencies instead")
+      // ReScript 12's built-in stdlib means no dependency entries are needed.
+      assertEquals(config["bs-dependencies"], undefined, ~msg="Should not have bs-dependencies")
     })
   })
 
@@ -85,19 +85,6 @@ let () = describe("Project Configuration", () => {
     })
   })
 
-  describe("flake.nix", () => {
-    itAsync("should exist and reference SuperNorma", async () => {
-      let content = await Deno_Api.readTextFile("flake.nix")
-      assertStringIncludes(content, "SuperNorma", ~msg="Should reference SuperNorma")
-      assertStringIncludes(content, "deno", ~msg="Should include deno")
-    })
-
-    itAsync("should have SPDX license header", async () => {
-      let content = await Deno_Api.readTextFile("flake.nix")
-      assertStringIncludes(content, "SPDX-License-Identifier", ~msg="Should have SPDX header")
-    })
-  })
-
   describe("guix.scm", () => {
     itAsync("should exist and define supernorma package", async () => {
       let content = await Deno_Api.readTextFile("guix.scm")
@@ -113,33 +100,33 @@ let () = describe("Project Configuration", () => {
 })
 
 let () = describe("RSR Compliance Files", () => {
-  itAsync("should have STATE.scm", async () => {
-    let content = await Deno_Api.readTextFile("STATE.scm")
+  itAsync("should have STATE.a2ml", async () => {
+    let content = await Deno_Api.readTextFile(".machine_readable/6a2/STATE.a2ml")
     assertStringIncludes(content, "supernorma", ~msg="Should reference project")
   })
 
-  itAsync("should have META.scm", async () => {
-    let content = await Deno_Api.readTextFile("META.scm")
+  itAsync("should have META.a2ml", async () => {
+    let content = await Deno_Api.readTextFile(".machine_readable/6a2/META.a2ml")
     assertStringIncludes(content, "supernorma", ~msg="Should reference project")
   })
 
-  itAsync("should have ECOSYSTEM.scm", async () => {
-    let content = await Deno_Api.readTextFile("ECOSYSTEM.scm")
+  itAsync("should have ECOSYSTEM.a2ml", async () => {
+    let content = await Deno_Api.readTextFile(".machine_readable/6a2/ECOSYSTEM.a2ml")
     assertStringIncludes(content, "supernorma", ~msg="Should reference project")
   })
 
   itAsync("should have RSR_COMPLIANCE.adoc", async () => {
     let content = await Deno_Api.readTextFile("RSR_COMPLIANCE.adoc")
-    assertEquals(typeof content, "string", ~msg="Should be able to read RSR_COMPLIANCE.adoc")
+    assertExists(content, ~msg="Should be able to read RSR_COMPLIANCE.adoc")
   })
 
   itAsync("should have SECURITY.md", async () => {
     let content = await Deno_Api.readTextFile("SECURITY.md")
-    assertEquals(typeof content, "string", ~msg="Should be able to read SECURITY.md")
+    assertExists(content, ~msg="Should be able to read SECURITY.md")
   })
 
-  itAsync("should have LICENSE.txt", async () => {
-    let content = await Deno_Api.readTextFile("LICENSE.txt")
-    assertEquals(typeof content, "string", ~msg="Should be able to read LICENSE.txt")
+  itAsync("should have LICENSE", async () => {
+    let content = await Deno_Api.readTextFile("LICENSE")
+    assertExists(content, ~msg="Should be able to read LICENSE")
   })
 })

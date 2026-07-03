@@ -10,25 +10,25 @@ project := "SuperNorma"
 default:
     @just --list --unsorted
 
-# Build
+# Build (ReScript via deno task)
 build:
-    @echo "TODO: Add build command"
+    deno task build
 
 # Test
 test:
-    @echo "TODO: Add test command"
+    deno task test
 
 # Clean
 clean:
-    @echo "TODO: Add clean command"
+    deno task clean
 
 # Format
 fmt:
-    @echo "TODO: Add format command"
+    deno task fmt
 
 # Lint
 lint:
-    @echo "TODO: Add lint command"
+    deno task lint
 
 # Run panic-attacker pre-commit scan
 assail:

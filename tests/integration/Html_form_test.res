@@ -45,7 +45,7 @@ let () = describe("HTML Form Integration", () => {
   describe("ui/style.css", () => {
     itAsync("should exist and be readable", async () => {
       let content = await Deno_Api.readTextFile("ui/style.css")
-      assertEquals(typeof content, "string", ~msg="Should be able to read style.css")
+      assertExists(content, ~msg="Should be able to read style.css")
     })
   })
 })
