@@ -34,7 +34,7 @@
       "tests/"
     ],
     "exclude": [
-      "src/**/*.res.js"
+      "**/*.res.js"
     ],
     "rules": {
       "tags": [
@@ -51,7 +51,7 @@
       "tests/"
     ],
     "exclude": [
-      "src/**/*.res.js"
+      "**/*.res.js"
     ],
     "indentWidth": 2,
     "lineWidth": 100,
