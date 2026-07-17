@@ -1,5 +1,5 @@
 {
-  "name": "supernorma",
+  "name": "@hyperpolymath/supernorma",
   "sources": [
     {
       "dir": "src",

@@ -2,16 +2,20 @@
 # Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
 # k9iser manifest for supernorma
-# Dev standards tool — Deno/ReScript tool for auditing and enforcing development standards across repos
+# Dev standards tool — Bun/ReScript tool for auditing and enforcing development standards across repos
 
 [project]
 name = "supernorma"
 safety_tier = "hunt"
 
 [[source]]
-path = "deno.json"
-type = "deno"
-output = "generated/k9iser/deno-workspace.k9"
+path = "package.json"
+# NOTE: was "deno" prior to the Bun-first migration (2026-07). k9iser's
+# supported source-type enum wasn't verified locally when this was updated
+# -- confirm "bun" is recognised, or adjust, the next time k9iser actually
+# runs against this manifest.
+type = "bun"
+output = "generated/k9iser/bun-workspace.k9"
 
 [[source]]
 path = "Justfile"
@@ -27,6 +31,6 @@ output = "generated/k9iser/ci-security.k9"
 rule = "build.dependencies has no banned_packages"
 severity = "error"
 
-[[constraint]]
-rule = "deno.imports has no npm: specifiers"
-severity = "error"
+# The "no npm: specifiers" constraint was removed: under Bun-first, bare
+# npm-registry specifiers (e.g. @rescript/runtime) are the normal, desired
+# resolution path, not something to forbid.

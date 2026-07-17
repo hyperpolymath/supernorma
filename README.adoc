@@ -3,7 +3,7 @@
 = SuperNorma
 image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[License: MPL-2.0,link="https://opensource.org/licenses/MPL-2.0"]
 image:https://img.shields.io/badge/ReScript-11%2B-red[ReScript,link="https://rescript-lang.org/"]
-image:https://img.shields.io/badge/Deno-2.x-black[Deno,link="https://deno.com/"]
+image:https://img.shields.io/badge/Bun-1.x-black[Bun,link="https://bun.sh/"]
 image:https://img.shields.io/badge/status-early%20development-orange[Status]
 
 > Financial self-awareness: a small, deterministic personal-finance and
@@ -38,15 +38,14 @@ link:TOPOLOGY.md[TOPOLOGY.md] for an honest component-by-component status.
 
 [source,bash]
 ----
+# Install dependencies
+bun install
+
 # Build ReScript
-deno task build
+bun run build
 
 # Run tests
-deno task test
-
-# Lint / format
-deno task lint
-deno task fmt
+bun run test
 ----
 
 == Layout
@@ -55,8 +54,8 @@ deno task fmt
 |===
 | `src/Mod.res` | Financial calculation kernels (the real core)
 | `src/UI.res` | Web-form DOM hook
-| `src/bindings/` | Thin ReScript bindings for Deno APIs
-| `tests/` | Unit and integration tests (Deno test over compiled ReScript)
+| `src/bindings/` | Thin ReScript bindings for Bun/Node runtime APIs
+| `tests/` | Unit and integration tests (bun:test over compiled ReScript)
 | `dax/` | Power BI DAX measures and columns
 | `workbook/`, `data/` | CSV templates and sample input
 | `advisor/` | LLM advisor system prompt (not yet wired)
@@ -65,8 +64,7 @@ deno task fmt
 
 == Requirements
 
-- Deno >= 2.0 (the ReScript compiler is currently fetched via `npx` during
-  `deno task build`; making that Deno-native is an open task)
+- Bun >= 1.3
 - Git
 
 == License

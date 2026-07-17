@@ -45,7 +45,9 @@ COMPONENT                          STATUS              NOTES
 CALCULATION CORE (RESCRIPT)
   Mod.res (finance kernels)        ████████░░  80%    Compiles; unit tests specify API
   UI.res (form hook)               ███░░░░░░░  30%    Submits to alert(); not wired to core
-  Deno bindings (src/bindings/)    ████████░░  80%    Thin externals; used by tests
+  Runtime/Assert/Testing/Csv       █████████░  90%    Bun-native bindings (bun:test,
+  (src/bindings/)                                     Bun.file, node:fs/promises); no
+                                                       external JS deps
 
 CONTENT
   DAX measures (dax/)              ██████░░░░  60%    3 measures mirroring the core
@@ -54,18 +56,23 @@ CONTENT
   Advisor prompt (advisor/)        ███░░░░░░░  30%    Persona text only; no model wiring
 
 TESTS
-  Unit (Mod/Data)                  ██████░░░░  60%    Real value assertions; need compiled
-                                                      *_test.res.js to run under deno test
-  Integration (Config/Html_form)   ████░░░░░░  40%    File-presence checks; repointed at
-                                                      files that exist
+  Unit (Mod/Data/Dax/Ui)           █████████░  90%    39 tests / 71 expect() calls,
+                                                       verified passing via `bun run test:unit`
+  Integration (Config/Html_form)   █████████░  90%    28 tests / 49 expect() calls,
+                                                       verified passing via
+                                                       `bun run test:integration`
 
 REPO INFRASTRUCTURE
-  deno.json tasks                  ████████░░  80%    build/test/lint/fmt defined
-  Justfile                         ███████░░░  70%    Delegates to deno tasks
+  package.json + bun.lock          █████████░  90%    build/test scripts defined; rescript
+                                                       is a real devDependency (no more
+                                                       npx-fetch-on-every-build)
+  Justfile                         ███████░░░  70%    Delegates to bun scripts
   CI workflows (15)                ██████░░░░  60%    Heavy for repo size; external deps
 
 ─────────────────────────────────────────────────────────────────────────────
-OVERALL:                            ██░░░░░░░░  ~20%   Early development
+OVERALL:                            ████░░░░░░  ~35%   Build + full test suite (67 tests)
+                                                       verified green end-to-end for the
+                                                       first time
 ```
 
 Previous versions of this dashboard described an AI developer-tools suite
@@ -75,13 +82,14 @@ actually exists.
 
 ## Path to a usable v0.1
 
-1. Compile ReScript so `src/Mod.res.js` (the declared deno.json export) and
-   the `*_test.res.js` files exist; make `deno task test` green
+1. [x] Compile ReScript so `src/Mod.res.js` exists and the `*_test.res.js`
+   files run — done: `bun run test` passes 67/67 (see TESTS row above)
 2. Wire the web form to the calculation core and render results
 3. Wire the advisor persona to a local LLM (e.g. LM Studio's
    OpenAI-compatible localhost API) with the calculation core supplying
    every number
-4. CSV import: parse `workbook/` templates via `@std/csv` into
+4. CSV import: parse `workbook/` templates via `src/bindings/Csv.res`
+   (pure ReScript, no external dependency) into
    `financialRecord`/`pensionRecord` values
 
 ## Update Protocol

@@ -1,0 +1,20 @@
+{
+  "name": "@hyperpolymath/supernorma",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/Mod.res.js",
+  "scripts": {
+    "rescript:build": "bunx rescript build",
+    "rescript:clean": "bunx rescript clean",
+    "rescript:watch": "bunx rescript build -w",
+    "build": "bun run rescript:build",
+    "clean": "bun run rescript:clean",
+    "test": "bun test $(find tests -name '*_test.res.js' | sed 's|^|./|')",
+    "test:unit": "bun test $(find tests/unit -name '*_test.res.js' | sed 's|^|./|')",
+    "test:integration": "bun test $(find tests/integration -name '*_test.res.js' | sed 's|^|./|')"
+  },
+  "devDependencies": {
+    "rescript": "12.3.0"
+  }
+}
