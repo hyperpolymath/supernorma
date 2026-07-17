@@ -24,13 +24,13 @@ The following files in `.machine_readable/` contain structured project metadata:
 | Language/Tool | Use Case | Notes |
 |---------------|----------|-------|
 | **AffineScript** | Primary application code | Compiles to JS, type-safe |
-| **Deno** | Runtime & package management | Replaces Node/npm/bun |
-| **Rust** | Performance-critical, systems, WASM | Preferred for CLI tools |
+| **Bun** | Runtime & package management | Estate-wide standard as of the Bun-first migration; native npm-registry/node_modules resolution (this is what fixed the `@rescript/runtime` import failure Deno's import-map model couldn't resolve). Replaces Node/npm/pnpm/yarn/Deno. |
+| **Rust** | Performance-critical, systems, WASM; preferred target for hot paths carved out of Bun-first prototypes | Preferred for CLI tools |
 | **Tauri 2.0+** | Mobile apps (iOS/Android) | Rust backend + web UI |
 | **Dioxus** | Mobile apps (native UI) | Pure Rust, React-like |
 | **Gleam** | Backend services | Runs on BEAM or compiles to JS |
 | **Bash/POSIX Shell** | Scripts, automation | Keep minimal |
-| **JavaScript** | Only where AffineScript cannot | MCP protocol glue, Deno APIs |
+| **JavaScript** | Only where AffineScript cannot | MCP protocol glue, Bun/Node APIs |
 | **Python** | SaltStack only | No other Python permitted |
 | **Nickel** | Configuration language | For complex configs |
 | **Guile Scheme** | State/meta files | .machine_readable/6a2/STATE.a2ml, .machine_readable/6a2/META.a2ml, .machine_readable/6a2/ECOSYSTEM.a2ml |
@@ -43,10 +43,10 @@ The following files in `.machine_readable/` contain structured project metadata:
 | Banned | Replacement |
 |--------|-------------|
 | TypeScript | AffineScript |
-| Node.js | Deno |
-| npm | Deno |
-| Bun | Deno |
-| pnpm/yarn | Deno |
+| Node.js | Bun |
+| npm | Bun |
+| Deno | Bun |
+| pnpm/yarn | Bun |
 | Go | Rust |
 | Python (general) | AffineScript/Rust |
 | Java/Kotlin | Rust/Tauri/Dioxus |
@@ -66,8 +66,8 @@ Both are FOSS with independent governance (no Big Tech).
 ### Enforcement Rules
 
 1. **No new TypeScript files** - Convert existing TS to AffineScript
-2. **No package.json - use deno.json deps** - Use deno.json imports
-3. **No node_modules in production** - Deno caches deps automatically
+2. **Use package.json + bun.lock** - Bun's native manifest/lockfile, not deno.json
+3. **No committed node_modules** - Bun caches and reinstalls deps automatically
 4. **No Go code** - Use Rust instead
 5. **Python only for SaltStack** - All other Python must be rewritten
 6. **No Kotlin/Swift for mobile** - Use Tauri 2.0+ or Dioxus
@@ -76,7 +76,7 @@ Both are FOSS with independent governance (no Big Tech).
 
 - **Primary**: Guix (guix.scm)
 - **Fallback**: Nix (flake.nix)
-- **JS deps**: Deno (deno.json imports)
+- **JS deps**: Bun (package.json + bun.lock)
 
 ### Security Requirements
 

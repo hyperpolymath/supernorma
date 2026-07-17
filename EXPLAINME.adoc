@@ -10,17 +10,24 @@ The README makes claims. This file backs them up.
 
 [quote, README]
 ____
-This is a ReScript codebase running on Deno. Each module is independently usable but they work together seamlessly.
+Financial self-awareness: a small, deterministic personal-finance and
+pension-projection toolkit.
 ____
+
+*Evidence:* `src/Mod.res` implements net income, surplus detection, total
+savings, and compound-interest pension projection with no external
+statistics/finance library — every number traces to a formula in that one
+file. The full test suite (67 tests, 120 `expect()` calls) passes end to end:
+`bun run test`.
 
 == Technology Choices
 
-[cols="1,2"]
+[cols="1,2,3"]
 |===
-| Technology | Learn More
+| Technology | Learn More | Why
 
-| **Deno** | https://deno.land
-| **ReScript** | https://rescript-lang.org
+| **ReScript** | https://rescript-lang.org | The one application language; compiles to JS, sound type system
+| **Bun** | https://bun.sh | Runtime + package manager. Native npm-registry/`node_modules` resolution is what makes `@rescript/runtime` (ReScript 12's built-in stdlib) actually load — Deno's import-map model couldn't resolve it, and that gap meant this project's test suite had never once run before the Bun migration.
 |===
 
 == File Map
@@ -29,9 +36,11 @@ ____
 |===
 | Path | What's There
 
-| `src/` | Source code
-| `lib/` | Library code
-| `test(s)/` | Test suite
+| `src/Mod.res` | Financial calculation kernels — the real core
+| `src/UI.res` | Web-form DOM hook (not yet wired to the core)
+| `src/bindings/` | Bun/Node runtime bindings (`Runtime.res`, `Assert.res`, `Testing.res`, `Csv.res`) — no external JS dependency
+| `tests/unit/`, `tests/integration/` | The 67-test suite; see TESTING-REPORT.adoc for verified pass counts
+| `dax/`, `workbook/`, `data/` | Power BI DAX measures and sample CSV data
 |===
 
 == Questions?

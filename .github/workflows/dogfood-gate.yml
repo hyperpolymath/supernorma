@@ -69,7 +69,8 @@ jobs:
           COUNT=$(find . \( -name '*.k9' -o -name '*.k9.ncl' \) -not -path './.git/*' | wc -l)
           CONFIG_COUNT=$(find . \( -name '*.toml' -o -name '*.yaml' -o -name '*.yml' -o -name '*.json' \) \
             -not -path './.git/*' -not -path './node_modules/*' -not -path './.deno/*' \
-            -not -name 'package-lock.json' -not -name 'Cargo.lock' -not -name 'deno.lock' | wc -l)
+            -not -name 'package-lock.json' -not -name 'Cargo.lock' -not -name 'deno.lock' \
+            -not -name 'bun.lock' -not -name 'bun.lockb' | wc -l)
           echo "k9_count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "config_count=$CONFIG_COUNT" >> "$GITHUB_OUTPUT"
           if [ "$COUNT" -eq 0 ] && [ "$CONFIG_COUNT" -gt 0 ]; then

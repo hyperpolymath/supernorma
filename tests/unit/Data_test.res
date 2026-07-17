@@ -2,20 +2,20 @@
 // SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
 // Unit tests for data processing functionality
 
-open Deno_Std_Assert
-open Deno_Std_Testing
-open Deno_Std_Csv
+open Assert
+open Testing
+open Csv
 
 let () = describe("Data Files", () => {
   describe("workbook/template.csv", () => {
     itAsync("should have valid CSV structure", async () => {
-      let content = await Deno_Api.readTextFile("workbook/template.csv")
+      let content = await Runtime.readTextFile("workbook/template.csv")
       let records = parse(content, {skipFirstRow: false})
       assertEquals(Array.length(records) >= 2, true, ~msg="Should have at least 2 rows (header + data)")
     })
 
     itAsync("should contain required columns", async () => {
-      let content = await Deno_Api.readTextFile("workbook/template.csv")
+      let content = await Runtime.readTextFile("workbook/template.csv")
       let records = parse(content, {skipFirstRow: false})
       let headers = records[0]
       switch headers {
@@ -28,7 +28,7 @@ let () = describe("Data Files", () => {
     })
 
     itAsync("should have valid numeric values", async () => {
-      let content = await Deno_Api.readTextFile("workbook/template.csv")
+      let content = await Runtime.readTextFile("workbook/template.csv")
       let records = parseAsRecords(content, {skipFirstRow: true})
       records->Array.forEach(row => {
         let values = row->Dict.valuesToArray
@@ -42,7 +42,7 @@ let () = describe("Data Files", () => {
 
   describe("workbook/pensions_model.csv", () => {
     itAsync("should have valid pension model structure", async () => {
-      let content = await Deno_Api.readTextFile("workbook/pensions_model.csv")
+      let content = await Runtime.readTextFile("workbook/pensions_model.csv")
       let records = parse(content, {skipFirstRow: false})
       assertEquals(Array.length(records) >= 2, true, ~msg="Should have at least 2 rows")
       let headers = records[0]
@@ -55,7 +55,7 @@ let () = describe("Data Files", () => {
     })
 
     itAsync("should have valid pension types", async () => {
-      let content = await Deno_Api.readTextFile("workbook/pensions_model.csv")
+      let content = await Runtime.readTextFile("workbook/pensions_model.csv")
       let records = parseAsRecords(content, {skipFirstRow: true})
       let validTypes = ["DB", "DC", "SIPP", "ISA", "State"]
       records->Array.forEach(row => {
@@ -74,7 +74,7 @@ let () = describe("Data Files", () => {
 
   describe("data/sample_input/income_example.csv", () => {
     itAsync("should have valid income data", async () => {
-      let content = await Deno_Api.readTextFile("data/sample_input/income_example.csv")
+      let content = await Runtime.readTextFile("data/sample_input/income_example.csv")
       let records = parse(content, {skipFirstRow: false})
       assertEquals(Array.length(records) >= 2, true, ~msg="Should have at least 2 rows")
       let headers = records[0]

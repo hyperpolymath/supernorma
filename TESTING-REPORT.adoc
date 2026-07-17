@@ -10,17 +10,22 @@
 
 [cols="2,3"]
 |===
-| *Report Date* | 2026-07-02
+| *Report Date* | 2026-07-17
 | *Project* | SuperNorma
 | *Version* | 0.1.0
-| *Test Framework* | Deno Test + @std/assert (over compiled ReScript)
-| *Status* | Tests written, not yet runnable in CI (see below)
+| *Test Framework* | bun:test (Bun's built-in test runner) over compiled ReScript
+| *Status* | Verified green end-to-end — 67 tests / 120 `expect()` calls, 0 failures
 |===
 
 A previous version of this report (2025-12-29) claimed 12 suites / 85 steps /
 100% pass against TypeScript sources (`src/mod.ts`, `tests/unit/ui_test.ts`)
-that were removed in the ReScript migration. That report described a state
-the current tree cannot reproduce and has been replaced by this honest one.
+that were removed in the ReScript migration. A later version (2026-07-02)
+correctly identified that the suite had never actually been run and switched
+this report to a "known gaps" format rather than fabricate a pass count.
+Those gaps are now closed: the estate moved from Deno to Bun as its
+JS/TS runtime standard, which fixed the root cause of why `deno test` could
+never discover or execute these files (see "History" below), and the suite
+has now genuinely run and genuinely passed.
 
 == Current test inventory
 
@@ -34,27 +39,64 @@ surplus, total savings, pension projection bounds (160k–165k @ 5%/10y etc.)
 | `tests/unit/Ui_test.res` | unit | Structure checks on `UI.res`
 | `tests/unit/Dax_test.res` | unit | Substring checks on `dax/` formulas
 | `tests/integration/Config_test.res` | integration | Presence/shape checks
-for `rescript.json`, `deno.json`, `guix.scm`, a2ml state files, `LICENSE`
+for `rescript.json`, `package.json`, `guix.scm`, a2ml state files, `LICENSE`
 | `tests/integration/Html_form_test.res` | integration | Web-form structure
 |===
 
-== Known gaps to a green `deno task test`
+== Verified results (2026-07-17)
 
-1. The ReScript sources must be compiled so `*_test.res.js` files exist —
-   Deno cannot execute `.res` directly. `deno task build` performs the
-   compile (currently via `npx rescript`).
-2. `src/Mod.res` exports were reconciled with `Mod_test.res` on 2026-07-02
-   (added `pensionRecord`, `version`, `projectName`, `calculateNetIncome`,
-   `isSurplus`); the suite has not yet been executed in an environment with
-   Deno available.
-3. `tests/fuzz/` contains only a placeholder.
+[source]
+----
+$ bun run test
+ 67 pass
+ 0 fail
+ 120 expect() calls
+Ran 67 tests across 6 files.
+
+$ bun run test:unit
+ 39 pass
+ 0 fail
+ 71 expect() calls
+Ran 39 tests across 4 files.
+
+$ bun run test:integration
+ 28 pass
+ 0 fail
+ 49 expect() calls
+Ran 28 tests across 2 files.
+----
+
+`tests/fuzz/` still contains only a placeholder — no fuzz suite exists yet.
+
+== History: why the suite never ran under Deno
+
+Two independent, structural problems, both now resolved by the move to Bun:
+
+1. **Missing `@rescript/runtime` resolution.** ReScript 12's built-in stdlib
+   compiles to imports from the `@rescript/runtime` npm package. Deno had no
+   `imports` map entry for it, so any generated `.res.js` file failed at
+   load time with `Import "@rescript/runtime/..." not a dependency and not
+   in import map`. Bun resolves npm-style bare specifiers natively via
+   `node_modules` (populated by `bun install`, using `rescript` as a real
+   `package.json` devDependency) — no import map needed.
+2. **Test file discovery.** ReScript's `suffix` setting always appends
+   `.res.js` verbatim to compiled output (e.g. `Config_test.res.js`), so
+   generated test files can never end in `_test.js`/`.test.js` the way both
+   Deno's and Bun's default test-discovery conventions require. `bun test`
+   still applies this convention to bare/directory arguments, but treats
+   explicit `./`-prefixed file paths as literal — `package.json`'s `test`
+   scripts build that file list via `find`. See
+   `.github/workflows/rescript-bun-ci.yml` for the same logic in CI.
 
 == How to run
 
 [source,bash]
 ----
-deno task build   # compile ReScript -> *.res.js
-deno task test    # run unit + integration suites
+bun install       # install rescript + resolve @rescript/runtime
+bun run build      # compile ReScript -> *.res.js
+bun run test       # run the full suite
+bun run test:unit
+bun run test:integration
 ----
 
 Record real pass/fail counts here after each run; do not update this report

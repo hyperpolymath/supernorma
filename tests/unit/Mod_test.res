@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
 // Unit tests for main module
 
-open Deno_Std_Assert
-open Deno_Std_Testing
+open Assert
+open Testing
 
 let () = describe("Module Exports", () => {
   it("should export VERSION constant", () => {

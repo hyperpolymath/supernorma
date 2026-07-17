@@ -10,25 +10,26 @@ project := "SuperNorma"
 default:
     @just --list --unsorted
 
-# Build (ReScript via deno task)
+# Build (ReScript via bun run)
 build:
-    deno task build
+    bun run build
 
 # Test
 test:
-    deno task test
+    bun run test
 
 # Clean
 clean:
-    deno task clean
+    bun run clean
 
-# Format
+# Format (nothing to format: project is ReScript-authored, no hand-written
+# JS/TS/JSON/MD exists under src/ or tests/ -- see rescript-bun-ci.yml)
 fmt:
-    deno task fmt
+    @echo "Nothing to format: no hand-written JS/TS under src/ or tests/"
 
-# Lint
+# Lint (see fmt above)
 lint:
-    deno task lint
+    @echo "Nothing to lint: no hand-written JS/TS under src/ or tests/"
 
 # Run panic-attacker pre-commit scan
 assail:
