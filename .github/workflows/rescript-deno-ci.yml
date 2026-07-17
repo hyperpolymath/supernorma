@@ -36,9 +36,32 @@ jobs:
             ./node_modules/.bin/rescript build
           fi
       - name: Deno lint
-        run: deno lint
+        # src/ and tests/ are ReScript-authored (.res) plus its generated
+        # (.res.js) output, which deno.json's lint/fmt config excludes from
+        # style checks — machine-generated code shouldn't be lint-policed.
+        # That leaves nothing for `deno lint`/`deno fmt` to target today, and
+        # both error on an empty target set rather than no-op. Skip cleanly
+        # in that case; if a hand-written .js/.ts/.md/etc. file is ever added
+        # under src/ or tests/, this re-enables both checks automatically.
+        run: |
+          if find src tests -type f \( -iname '*.js' -o -iname '*.mjs' -o -iname '*.cjs' -o -iname '*.jsx' \
+              -o -iname '*.ts' -o -iname '*.mts' -o -iname '*.cts' -o -iname '*.tsx' -o -iname '*.json' \
+              -o -iname '*.jsonc' -o -iname '*.md' -o -iname '*.markdown' -o -iname '*.yml' -o -iname '*.yaml' \) \
+              ! -iname '*.res.js' | grep -q .; then
+            deno lint
+          else
+            echo "No hand-written lintable files under src/ or tests/ (project is ReScript-authored); skipping deno lint."
+          fi
       - name: Deno fmt check
-        run: deno fmt --check
+        run: |
+          if find src tests -type f \( -iname '*.js' -o -iname '*.mjs' -o -iname '*.cjs' -o -iname '*.jsx' \
+              -o -iname '*.ts' -o -iname '*.mts' -o -iname '*.cts' -o -iname '*.tsx' -o -iname '*.json' \
+              -o -iname '*.jsonc' -o -iname '*.md' -o -iname '*.markdown' -o -iname '*.yml' -o -iname '*.yaml' \) \
+              ! -iname '*.res.js' | grep -q .; then
+            deno fmt --check
+          else
+            echo "No hand-written formattable files under src/ or tests/ (project is ReScript-authored); skipping deno fmt --check."
+          fi
       - name: Deno test
         run: deno test --allow-all --coverage=coverage
   security:
