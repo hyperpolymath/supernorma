@@ -1,15 +1,8 @@
-<!--
-SPDX-License-Identifier: CC-BY-SA-4.0
-Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
--->
-<!-- TOPOLOGY.md — Project architecture map and completion dashboard -->
-<!-- Last updated: 2026-07-02 (honesty pass: dashboard now reflects the actual tree) -->
+== SuperNorma — Project Topology
 
-# SuperNorma — Project Topology
+=== System Architecture
 
-## System Architecture
-
-```
+....
         ┌─────────────────────────────────────────┐
         │                  USER                   │
         │   (web form / Power BI / future chat)   │
@@ -35,11 +28,11 @@ Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
     │   LLM persona: Bookkeeper / Forensic        │
     │   Analyst / Empowered Advocate — UNWIRED    │
     └─────────────────────────────────────────────┘
-```
+....
 
-## Completion Dashboard
+=== Completion Dashboard
 
-```
+....
 COMPONENT                          STATUS              NOTES
 ─────────────────────────────────  ──────────────────  ─────────────────────────────────
 CALCULATION CORE (RESCRIPT)
@@ -73,33 +66,36 @@ REPO INFRASTRUCTURE
 OVERALL:                            ████░░░░░░  ~35%   Build + full test suite (67 tests)
                                                        verified green end-to-end for the
                                                        first time
-```
+....
 
-Previous versions of this dashboard described an AI developer-tools suite
-(AiCore, DataFramework, CLI, WebApp, DevTools) at ~90% completion. Those
-modules were never present in this repository; the dashboard now tracks what
-actually exists.
+Previous versions of this dashboard described an AI developer-tools
+suite (AiCore, DataFramework, CLI, WebApp, DevTools) at ~90% completion.
+Those modules were never present in this repository; the dashboard now
+tracks what actually exists.
 
-## Path to a usable v0.1
+=== Path to a usable v0.1
 
-1. [x] Compile ReScript so `src/Mod.res.js` exists and the `*_test.res.js`
-   files run — done: `bun run test` passes 67/67 (see TESTS row above)
-2. Wire the web form to the calculation core and render results
-3. Wire the advisor persona to a local LLM (e.g. LM Studio's
-   OpenAI-compatible localhost API) with the calculation core supplying
-   every number
-4. CSV import: parse `workbook/` templates via `src/bindings/Csv.res`
-   (pure ReScript, no external dependency) into
-   `financialRecord`/`pensionRecord` values
+[arabic]
+. ☒ Compile ReScript so `+src/Mod.res.js+` exists and the
+`+*_test.res.js+` files run — done: `+bun run test+` passes 67/67 (see
+TESTS row above)
+. Wire the web form to the calculation core and render results
+. Wire the advisor persona to a local LLM (e.g. LM Studio’s
+OpenAI-compatible localhost API) with the calculation core supplying
+every number
+. CSV import: parse `+workbook/+` templates via `+src/bindings/Csv.res+`
+(pure ReScript, no external dependency) into
+`+financialRecord+`/`+pensionRecord+` values
 
-## Update Protocol
+=== Update Protocol
 
 This file is maintained by both humans and AI agents. When updating:
 
-1. **After completing a component**: Change its bar and percentage
-2. **After adding a component**: Add a new row in the appropriate section
-3. **After architectural changes**: Update the ASCII diagram
-4. **Date**: Update the `Last updated` comment at the top of this file
+[arabic]
+. *After completing a component*: Change its bar and percentage
+. *After adding a component*: Add a new row in the appropriate section
+. *After architectural changes*: Update the ASCII diagram
+. *Date*: Update the `+Last updated+` comment at the top of this file
 
-Progress bars use: `█` (filled) and `░` (empty), 10 characters wide.
-Percentages: 0%, 10%, 20%, ... 100% (in 10% increments).
+Progress bars use: `+█+` (filled) and `+░+` (empty), 10 characters wide.
+Percentages: 0%, 10%, 20%, … 100% (in 10% increments).
