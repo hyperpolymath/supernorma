@@ -15,6 +15,6 @@
     "test:integration": "bun test $(find tests/integration -name '*_test.res.js' | sed 's|^|./|')"
   },
   "devDependencies": {
-    "rescript": "12.3.0"
+    "rescript": "12.3.1"
   }
 }
