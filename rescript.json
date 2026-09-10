@@ -1,0 +1,25 @@
+{
+  "name": "supernorma",
+  "namespace": true,
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    },
+    {
+      "dir": "tests",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".res.js",
+  "gentypeconfig": {
+    "language": "untyped",
+    "shims": []
+  }
+}
