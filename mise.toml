@@ -1,8 +1,6 @@
 [tools]
 # Language runtimes
-node = "latest"
 bun = "latest"
 
 [env]
 # Common environment variables
-NODE_ENV = "development"
